@@ -3265,4 +3265,15 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			if (!speciesMods.length) throw new Error('This format has no rules that modify base stats.');
 		},
 	},
+	onlygen1: {
+		effectType: 'ValidatorRule',
+		name: "Only Gen 1",
+		desc: "Only allows Pok&eacute;mon, moves, abilities, and items from Generation 1.",
+		onValidateSet(set) {
+			const species = this.dex.species.get(set.species);
+			if (species.gen > 1) {
+				return [`${species.name} is from Gen ${species.gen} and is not allowed.`];
+			}
+		},
+	},
 };

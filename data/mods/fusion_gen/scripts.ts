@@ -31,7 +31,7 @@ export function getRoomauth(name: string, room: string) {
 	const roomsList: any[] = JSON.parse(
 		FS("config/chatrooms.json").readIfExistsSync() || "[]",
 	);
-	const roomData = roomsList.find((r) => toID(r.title) === roomid);
+	const roomData = roomsList.find(r => toID(r.title) === roomid);
 	if (!roomData) return null;
 	roomauth[roomid] = roomData.auth;
 	return roomauth[roomid][userid] || null;
@@ -84,9 +84,9 @@ export function changeSet(
 	pokemon.set.evs = evs;
 	pokemon.set.ivs = ivs;
 	if (newSet.nature)
-		pokemon.set.nature = Array.isArray(newSet.nature)
-			? context.sample(newSet.nature)
-			: newSet.nature;
+		pokemon.set.nature = Array.isArray(newSet.nature) ?
+			context.sample(newSet.nature) :
+			newSet.nature;
 	const oldGender = pokemon.set.gender;
 	if (pokemon.set.gender !== newSet.gender && !Array.isArray(newSet.gender)) {
 		pokemon.set.gender = newSet.gender;
@@ -95,20 +95,20 @@ export function changeSet(
 	}
 	const oldShiny = pokemon.set.shiny;
 	pokemon.set.shiny =
-		typeof newSet.shiny === "number"
-			? context.randomChance(1, newSet.shiny)
-			: !!newSet.shiny;
+		typeof newSet.shiny === "number" ?
+			context.randomChance(1, newSet.shiny) :
+			!!newSet.shiny;
 	let percent = pokemon.hp / pokemon.baseMaxhp;
 	if (newSet.species === "Shedinja") percent = 1;
 	pokemon.formeChange(newSet.species, context.effect, true);
 	if (!pokemon.terastallized && newSet.teraType) {
 		const allTypes = context.dex.types.names();
 		pokemon.teraType =
-			newSet.teraType === "Any"
-				? context.sample(allTypes)
-				: Array.isArray(newSet.teraType)
-					? context.sample(newSet.teraType)
-					: newSet.teraType;
+			newSet.teraType === "Any" ?
+				context.sample(allTypes) :
+				Array.isArray(newSet.teraType) ?
+					context.sample(newSet.teraType) :
+					newSet.teraType;
 	}
 	const details = pokemon.getUpdatedDetails();
 	if (oldShiny !== pokemon.set.shiny || oldGender !== pokemon.gender)
@@ -117,19 +117,19 @@ export function changeSet(
 		pokemon.setAbility(newSet.ability as string, undefined, undefined, true);
 
 	pokemon.baseMaxhp =
-		pokemon.species.name === "Shedinja"
-			? 1
-			: Math.floor(
-					(Math.floor(
-						2 * pokemon.species.baseStats.hp +
-							pokemon.set.ivs.hp +
-							Math.floor(pokemon.set.evs.hp / 4) +
-							100,
-					) *
-						pokemon.level) /
-						100 +
-						10,
-				);
+		pokemon.species.name === "Shedinja" ?
+			1 :
+			Math.floor(
+				(Math.floor(
+					2 * pokemon.species.baseStats.hp +
+					pokemon.set.ivs.hp +
+					Math.floor(pokemon.set.evs.hp / 4) +
+					100,
+				) *
+				pokemon.level) /
+				100 +
+				10,
+			);
 	const newMaxHP = pokemon.baseMaxhp;
 	pokemon.hp = Math.round(newMaxHP * percent);
 	pokemon.maxhp = newMaxHP;
@@ -153,9 +153,9 @@ export function changeSet(
 	pokemon.canMegaEvo = context.actions.canMegaEvo(pokemon);
 	pokemon.canUltraBurst = context.actions.canUltraBurst(pokemon);
 	pokemon.canTerastallize =
-		pokemon.canTerastallize === null
-			? null
-			: context.actions.canTerastallize(pokemon);
+		pokemon.canTerastallize === null ?
+			null :
+			context.actions.canTerastallize(pokemon);
 	context.add("message", `${pokemon.name} changed form!`);
 }
 
@@ -183,7 +183,7 @@ export function changeMoves(
 	pokemon: Pokemon,
 	newMoves: (string | string[])[],
 ) {
-	const carryOver = pokemon.moveSlots.slice().map((m) => m.pp / m.maxpp);
+	const carryOver = pokemon.moveSlots.slice().map(m => m.pp / m.maxpp);
 	// In case there are ever less than 4 moves
 	while (carryOver.length < 4) {
 		carryOver.push(1);
@@ -191,9 +191,9 @@ export function changeMoves(
 	const result = [];
 	let slot = 0;
 	for (const newMove of newMoves) {
-		const moveName = Array.isArray(newMove)
-			? newMove[context.random(newMove.length)]
-			: newMove;
+		const moveName = Array.isArray(newMove) ?
+			newMove[context.random(newMove.length)] :
+			newMove;
 		const move = context.dex.moves.get(context.toID(moveName));
 		if (!move.id) continue;
 		const moveSlot = {
@@ -255,43 +255,43 @@ export const Scripts: ModdedBattleScriptsData = {
 			if (boostBy) {
 				success = true;
 				switch (effect?.id) {
-					case "bellydrum":
-					case "angerpoint":
+				case "bellydrum":
+				case "angerpoint":
+					this.add(
+						"-setboost",
+						target,
+						"atk",
+						target.boosts["atk"],
+						"[from] " + effect.fullname,
+					);
+					break;
+				case "bellydrum2":
+					this.add(msg, target, boostName, boostBy, "[silent]");
+					this.hint("In Gen 2, Belly Drum boosts by 2 when it fails.");
+					break;
+				case "zpower":
+					this.add(msg, target, boostName, boostBy, "[zeffect]");
+					break;
+				default:
+					if (!effect) break;
+					if (effect.effectType === "Move") {
+						this.add(msg, target, boostName, boostBy);
+					} else if (effect.effectType === "Item") {
 						this.add(
-							"-setboost",
+							msg,
 							target,
-							"atk",
-							target.boosts["atk"],
-							"[from] " + effect.fullname,
+							boostName,
+							boostBy,
+							"[from] item: " + effect.name,
 						);
-						break;
-					case "bellydrum2":
-						this.add(msg, target, boostName, boostBy, "[silent]");
-						this.hint("In Gen 2, Belly Drum boosts by 2 when it fails.");
-						break;
-					case "zpower":
-						this.add(msg, target, boostName, boostBy, "[zeffect]");
-						break;
-					default:
-						if (!effect) break;
-						if (effect.effectType === "Move") {
-							this.add(msg, target, boostName, boostBy);
-						} else if (effect.effectType === "Item") {
-							this.add(
-								msg,
-								target,
-								boostName,
-								boostBy,
-								"[from] item: " + effect.name,
-							);
-						} else {
-							if (effect.effectType === "Ability" && !boosted) {
-								this.add("-ability", target, effect.name, "boost");
-								boosted = true;
-							}
-							this.add(msg, target, boostName, boostBy);
+					} else {
+						if (effect.effectType === "Ability" && !boosted) {
+							this.add("-ability", target, effect.name, "boost");
+							boosted = true;
 						}
-						break;
+						this.add(msg, target, boostName, boostBy);
+					}
+					break;
 				}
 				this.runEvent(
 					"AfterEachBoost",
@@ -309,9 +309,9 @@ export const Scripts: ModdedBattleScriptsData = {
 		}
 		this.runEvent("AfterBoost", target, source, effect, boost);
 		if (success) {
-			if (Object.values(boost).some((x) => x > 0))
+			if (Object.values(boost).some(x => x > 0))
 				target.statsRaisedThisTurn = true;
-			if (Object.values(boost).some((x) => x < 0))
+			if (Object.values(boost).some(x => x < 0))
 				target.statsLoweredThisTurn = true;
 		}
 		return success;
@@ -497,278 +497,278 @@ export const Scripts: ModdedBattleScriptsData = {
 		let residualPokemon: (readonly [Pokemon, number])[] = [];
 		// returns whether or not we ended in a callback
 		switch (action.choice) {
-			case "start": {
-				for (const side of this.sides) {
-					if (side.pokemonLeft) side.pokemonLeft = side.pokemon.length;
-					this.add("teamsize", side.id, side.pokemon.length);
-				}
-
-				this.add("start");
-
-				// Change Zacian/Zamazenta into their Crowned formes
-				for (const pokemon of this.getAllPokemon()) {
-					let rawSpecies: Species | null = null;
-					if (
-						pokemon.species.id === "zacian" &&
-						pokemon.item === "rustedsword"
-					) {
-						rawSpecies = this.dex.species.get("Zacian-Crowned");
-					} else if (
-						pokemon.species.id === "zamazenta" &&
-						pokemon.item === "rustedshield"
-					) {
-						rawSpecies = this.dex.species.get("Zamazenta-Crowned");
-					}
-					if (!rawSpecies) continue;
-					const species = pokemon.setSpecies(rawSpecies);
-					if (!species) continue;
-					pokemon.baseSpecies = rawSpecies;
-					pokemon.details = pokemon.getUpdatedDetails();
-					// pokemon.setAbility(species.abilities['0'], null, null, true);
-					// pokemon.baseAbility = pokemon.ability;
-
-					const behemothMove: { [k: string]: string } = {
-						"Zacian-Crowned": "behemothblade",
-						"Zamazenta-Crowned": "behemothbash",
-					};
-					const ironHead = pokemon.baseMoves.indexOf("ironhead");
-					if (ironHead >= 0) {
-						const move = this.dex.moves.get(
-							behemothMove[rawSpecies.name],
-						);
-						pokemon.baseMoveSlots[ironHead] = {
-							move: move.name,
-							id: move.id,
-							pp: move.noPPBoosts ? move.pp : (move.pp * 8) / 5,
-							maxpp: move.noPPBoosts ? move.pp : (move.pp * 8) / 5,
-							target: move.target,
-							disabled: false,
-							disabledSource: "",
-							used: false,
-						};
-						pokemon.moveSlots = pokemon.baseMoveSlots.slice();
-					}
-				}
-
-				this.format.onBattleStart?.call(this);
-				for (const rule of this.ruleTable.keys()) {
-					if ("+*-!".includes(rule.charAt(0))) continue;
-					const subFormat = this.dex.formats.get(rule);
-					subFormat.onBattleStart?.call(this);
-				}
-
-				for (const side of this.sides) {
-					for (let i = 0; i < side.active.length; i++) {
-						if (!side.pokemonLeft) {
-							// forfeited before starting
-							side.active[i] = side.pokemon[i];
-							side.active[i].fainted = true;
-							side.active[i].hp = 0;
-						} else {
-							this.actions.switchIn(side.pokemon[i], i);
-						}
-					}
-				}
-				for (const pokemon of this.getAllPokemon()) {
-					this.singleEvent(
-						"Start",
-						this.dex.conditions.getByID(pokemon.species.id),
-						pokemon.speciesState,
-						pokemon,
-					);
-				}
-				this.midTurn = true;
-				break;
+		case "start": {
+			for (const side of this.sides) {
+				if (side.pokemonLeft) side.pokemonLeft = side.pokemon.length;
+				this.add("teamsize", side.id, side.pokemon.length);
 			}
 
-			case "move":
-				if (!action.pokemon.isActive) return false;
-				if (action.pokemon.fainted) return false;
-				this.actions.runMove(
-					action.move,
-					action.pokemon,
-					action.targetLoc,
-					{
-						sourceEffect: action.sourceEffect,
-						zMove: action.zmove,
-						maxMove: action.maxMove,
-						originalTarget: action.originalTarget,
-					},
-				);
-				break;
-			case "megaEvo":
-				this.actions.runMegaEvo(action.pokemon);
-				break;
-			case "runDynamax":
-				action.pokemon.addVolatile("dynamax");
-				action.pokemon.side.dynamaxUsed = true;
-				if (action.pokemon.side.allySide)
-					action.pokemon.side.allySide.dynamaxUsed = true;
-				break;
-			case "terastallize":
-				this.actions.terastallize(action.pokemon);
-				break;
-			case "beforeTurnMove":
-				if (!action.pokemon.isActive) return false;
-				if (action.pokemon.fainted) return false;
-				this.debug("before turn callback: " + action.move.id);
-				const target = this.getTarget(
-					action.pokemon,
-					action.move,
-					action.targetLoc,
-				);
-				if (!target) return false;
-				if (!action.move.beforeTurnCallback)
-					throw new Error(`beforeTurnMove has no beforeTurnCallback`);
-				action.move.beforeTurnCallback.call(this, action.pokemon, target);
-				break;
-			case "priorityChargeMove":
-				if (!action.pokemon.isActive) return false;
-				if (action.pokemon.fainted) return false;
-				this.debug("priority charge callback: " + action.move.id);
-				if (!action.move.priorityChargeCallback)
-					throw new Error(
-						`priorityChargeMove has no priorityChargeCallback`,
-					);
-				action.move.priorityChargeCallback.call(this, action.pokemon);
-				break;
+			this.add("start");
 
-			case "event":
-				this.runEvent(action.event!, action.pokemon);
-				break;
-			case "team":
-				if (action.index === 0) {
-					action.pokemon.side.pokemon = [];
-				}
-				action.pokemon.side.pokemon.push(action.pokemon);
-				action.pokemon.position = action.index;
-				// we return here because the update event would crash since there are no active pokemon yet
-				return;
-
-			case "pass":
-				return;
-			case "instaswitch":
-			case "switch":
-				if (action.choice === "switch" && action.pokemon.status) {
-					this.singleEvent(
-						"CheckShow",
-						this.dex.abilities.getByID("naturalcure" as ID),
-						null,
-						action.pokemon,
-					);
-				}
+			// Change Zacian/Zamazenta into their Crowned formes
+			for (const pokemon of this.getAllPokemon()) {
+				let rawSpecies: Species | null = null;
 				if (
-					this.actions.switchIn(
-						action.target,
-						action.pokemon.position,
-						action.sourceEffect,
-					) === "pursuitfaint"
+					pokemon.species.id === "zacian" &&
+					pokemon.item === "rustedsword"
 				) {
-					// a pokemon fainted from Pursuit before it could switch
-					if (this.gen <= 4) {
-						// in gen 2-4, the switch still happens
-						this.hint(
-							"Previously chosen switches continue in Gen 2-4 after a Pursuit target faints.",
-						);
-						action.priority = -101;
-						this.queue.unshift(action);
-						break;
+					rawSpecies = this.dex.species.get("Zacian-Crowned");
+				} else if (
+					pokemon.species.id === "zamazenta" &&
+					pokemon.item === "rustedshield"
+				) {
+					rawSpecies = this.dex.species.get("Zamazenta-Crowned");
+				}
+				if (!rawSpecies) continue;
+				const species = pokemon.setSpecies(rawSpecies);
+				if (!species) continue;
+				pokemon.baseSpecies = rawSpecies;
+				pokemon.details = pokemon.getUpdatedDetails();
+				// pokemon.setAbility(species.abilities['0'], null, null, true);
+				// pokemon.baseAbility = pokemon.ability;
+
+				const behemothMove: { [k: string]: string } = {
+					"Zacian-Crowned": "behemothblade",
+					"Zamazenta-Crowned": "behemothbash",
+				};
+				const ironHead = pokemon.baseMoves.indexOf("ironhead");
+				if (ironHead >= 0) {
+					const move = this.dex.moves.get(
+						behemothMove[rawSpecies.name],
+					);
+					pokemon.baseMoveSlots[ironHead] = {
+						move: move.name,
+						id: move.id,
+						pp: move.noPPBoosts ? move.pp : (move.pp * 8) / 5,
+						maxpp: move.noPPBoosts ? move.pp : (move.pp * 8) / 5,
+						target: move.target,
+						disabled: false,
+						disabledSource: "",
+						used: false,
+					};
+					pokemon.moveSlots = pokemon.baseMoveSlots.slice();
+				}
+			}
+
+			this.format.onBattleStart?.call(this);
+			for (const rule of this.ruleTable.keys()) {
+				if ("+*-!".includes(rule.charAt(0))) continue;
+				const subFormat = this.dex.formats.get(rule);
+				subFormat.onBattleStart?.call(this);
+			}
+
+			for (const side of this.sides) {
+				for (let i = 0; i < side.active.length; i++) {
+					if (!side.pokemonLeft) {
+						// forfeited before starting
+						side.active[i] = side.pokemon[i];
+						side.active[i].fainted = true;
+						side.active[i].hp = 0;
 					} else {
-						// in gen 5+, the switch is cancelled
-						this.hint(
-							"A Pokemon can't switch between when it runs out of HP and when it faints",
-						);
-						break;
+						this.actions.switchIn(side.pokemon[i], i);
 					}
 				}
-				break;
-			case "revivalblessing":
-				action.pokemon.side.pokemonLeft++;
-				if (action.target.position < action.pokemon.side.active.length) {
-					this.queue.addChoice({
-						choice: "instaswitch",
-						pokemon: action.target,
-						target: action.target,
-					});
-				}
-				action.target.fainted = false;
-				action.target.faintQueued = false;
-				action.target.subFainted = false;
-				action.target.status = "";
-				action.target.hp = 1; // Needed so hp functions works
-				action.target.sethp(action.target.maxhp / 2);
-				this.add(
-					"-heal",
-					action.target,
-					action.target.getHealth,
-					"[from] move: Revival Blessing",
+			}
+			for (const pokemon of this.getAllPokemon()) {
+				this.singleEvent(
+					"Start",
+					this.dex.conditions.getByID(pokemon.species.id),
+					pokemon.speciesState,
+					pokemon,
 				);
-				action.pokemon.side.removeSlotCondition(
-					action.pokemon,
-					"revivalblessing",
-				);
-				break;
-			// @ts-expect-error I'm sorry but it takes a lot
-			case "scapegoat":
-				action = action as SwitchAction;
-				const percent = (action.target.hp / action.target.baseMaxhp) * 100;
-				// TODO: Client support for custom faint
-				action.target.faint();
-				if (percent > 66) {
-					this.add("message", `Your courage will be greatly rewarded.`);
-					this.boost(
-						{ atk: 4, spa: 4, spe: 4 },
-						action.pokemon,
-						action.pokemon,
-						this.dex.moves.get("scapegoat") as any,
-					);
-				} else if (percent > 33) {
-					this.add("message", `Your offering was accepted.`);
-					this.boost(
-						{ atk: 3, spa: 3, spe: 3 },
-						action.pokemon,
-						action.pokemon,
-						this.dex.moves.get("scapegoat") as any,
-					);
-				} else {
-					this.add("message", `Coward.`);
-					this.boost(
-						{ atk: 2, spa: 2, spe: 2 },
-						action.pokemon,
-						action.pokemon,
-						this.dex.moves.get("scapegoat") as any,
-					);
-				}
-				this.add(
-					`c:|${getName((action.pokemon.illusion || action.pokemon).name)}|Don't worry, if this plan fails we can just blame ${action.target.name}`,
-				);
-				action.pokemon.side.removeSlotCondition(
-					action.pokemon,
-					"scapegoat",
-				);
-				break;
-			case "runSwitch":
-				this.actions.runSwitch(action.pokemon);
-				break;
-			case "shift":
-				if (!action.pokemon.isActive) return false;
-				if (action.pokemon.fainted) return false;
-				this.swapPosition(action.pokemon, 1);
-				break;
+			}
+			this.midTurn = true;
+			break;
+		}
 
-			case "beforeTurn":
-				this.eachEvent("BeforeTurn");
-				break;
-			case "residual":
-				this.add("");
-				this.clearActiveMove(true);
-				this.updateSpeed();
-				residualPokemon = this.getAllActive().map(
-					(pokemon) => [pokemon, pokemon.getUndynamaxedHP()] as const,
+		case "move":
+			if (!action.pokemon.isActive) return false;
+			if (action.pokemon.fainted) return false;
+			this.actions.runMove(
+				action.move,
+				action.pokemon,
+				action.targetLoc,
+				{
+					sourceEffect: action.sourceEffect,
+					zMove: action.zmove,
+					maxMove: action.maxMove,
+					originalTarget: action.originalTarget,
+				},
+			);
+			break;
+		case "megaEvo":
+			this.actions.runMegaEvo(action.pokemon);
+			break;
+		case "runDynamax":
+			action.pokemon.addVolatile("dynamax");
+			action.pokemon.side.dynamaxUsed = true;
+			if (action.pokemon.side.allySide)
+				action.pokemon.side.allySide.dynamaxUsed = true;
+			break;
+		case "terastallize":
+			this.actions.terastallize(action.pokemon);
+			break;
+		case "beforeTurnMove":
+			if (!action.pokemon.isActive) return false;
+			if (action.pokemon.fainted) return false;
+			this.debug("before turn callback: " + action.move.id);
+			const target = this.getTarget(
+				action.pokemon,
+				action.move,
+				action.targetLoc,
+			);
+			if (!target) return false;
+			if (!action.move.beforeTurnCallback)
+				throw new Error(`beforeTurnMove has no beforeTurnCallback`);
+			action.move.beforeTurnCallback.call(this, action.pokemon, target);
+			break;
+		case "priorityChargeMove":
+			if (!action.pokemon.isActive) return false;
+			if (action.pokemon.fainted) return false;
+			this.debug("priority charge callback: " + action.move.id);
+			if (!action.move.priorityChargeCallback)
+				throw new Error(
+					`priorityChargeMove has no priorityChargeCallback`,
 				);
-				this.fieldEvent("Residual");
-				this.add("upkeep");
-				break;
+			action.move.priorityChargeCallback.call(this, action.pokemon);
+			break;
+
+		case "event":
+			this.runEvent(action.event!, action.pokemon);
+			break;
+		case "team":
+			if (action.index === 0) {
+				action.pokemon.side.pokemon = [];
+			}
+			action.pokemon.side.pokemon.push(action.pokemon);
+			action.pokemon.position = action.index;
+			// we return here because the update event would crash since there are no active pokemon yet
+			return;
+
+		case "pass":
+			return;
+		case "instaswitch":
+		case "switch":
+			if (action.choice === "switch" && action.pokemon.status) {
+				this.singleEvent(
+					"CheckShow",
+					this.dex.abilities.getByID("naturalcure" as ID),
+					null,
+					action.pokemon,
+				);
+			}
+			if (
+				this.actions.switchIn(
+					action.target,
+					action.pokemon.position,
+					action.sourceEffect,
+				) === "pursuitfaint"
+			) {
+				// a pokemon fainted from Pursuit before it could switch
+				if (this.gen <= 4) {
+					// in gen 2-4, the switch still happens
+					this.hint(
+						"Previously chosen switches continue in Gen 2-4 after a Pursuit target faints.",
+					);
+					action.priority = -101;
+					this.queue.unshift(action);
+					break;
+				} else {
+					// in gen 5+, the switch is cancelled
+					this.hint(
+						"A Pokemon can't switch between when it runs out of HP and when it faints",
+					);
+					break;
+				}
+			}
+			break;
+		case "revivalblessing":
+			action.pokemon.side.pokemonLeft++;
+			if (action.target.position < action.pokemon.side.active.length) {
+				this.queue.addChoice({
+					choice: "instaswitch",
+					pokemon: action.target,
+					target: action.target,
+				});
+			}
+			action.target.fainted = false;
+			action.target.faintQueued = false;
+			action.target.subFainted = false;
+			action.target.status = "";
+			action.target.hp = 1; // Needed so hp functions works
+			action.target.sethp(action.target.maxhp / 2);
+			this.add(
+				"-heal",
+				action.target,
+				action.target.getHealth,
+				"[from] move: Revival Blessing",
+			);
+			action.pokemon.side.removeSlotCondition(
+				action.pokemon,
+				"revivalblessing",
+			);
+			break;
+			// @ts-expect-error I'm sorry but it takes a lot
+		case "scapegoat":
+			action = action as SwitchAction;
+			const percent = (action.target.hp / action.target.baseMaxhp) * 100;
+			// TODO: Client support for custom faint
+			action.target.faint();
+			if (percent > 66) {
+				this.add("message", `Your courage will be greatly rewarded.`);
+				this.boost(
+					{ atk: 4, spa: 4, spe: 4 },
+					action.pokemon,
+					action.pokemon,
+					this.dex.moves.get("scapegoat") as any,
+				);
+			} else if (percent > 33) {
+				this.add("message", `Your offering was accepted.`);
+				this.boost(
+					{ atk: 3, spa: 3, spe: 3 },
+					action.pokemon,
+					action.pokemon,
+					this.dex.moves.get("scapegoat") as any,
+				);
+			} else {
+				this.add("message", `Coward.`);
+				this.boost(
+					{ atk: 2, spa: 2, spe: 2 },
+					action.pokemon,
+					action.pokemon,
+					this.dex.moves.get("scapegoat") as any,
+				);
+			}
+			this.add(
+				`c:|${getName((action.pokemon.illusion || action.pokemon).name)}|Don't worry, if this plan fails we can just blame ${action.target.name}`,
+			);
+			action.pokemon.side.removeSlotCondition(
+				action.pokemon,
+				"scapegoat",
+			);
+			break;
+		case "runSwitch":
+			this.actions.runSwitch(action.pokemon);
+			break;
+		case "shift":
+			if (!action.pokemon.isActive) return false;
+			if (action.pokemon.fainted) return false;
+			this.swapPosition(action.pokemon, 1);
+			break;
+
+		case "beforeTurn":
+			this.eachEvent("BeforeTurn");
+			break;
+		case "residual":
+			this.add("");
+			this.clearActiveMove(true);
+			this.updateSpeed();
+			residualPokemon = this.getAllActive().map(
+				pokemon => [pokemon, pokemon.getUndynamaxedHP()] as const,
+			);
+			this.fieldEvent("Residual");
+			this.add("upkeep");
+			break;
 		}
 
 		// phazing (Roar, etc)
@@ -843,8 +843,8 @@ export const Scripts: ModdedBattleScriptsData = {
 			}
 		}
 
-		const switches = this.sides.map((side) =>
-			side.active.some((pokemon) => pokemon && !!pokemon.switchFlag),
+		const switches = this.sides.map(side =>
+			side.active.some(pokemon => pokemon && !!pokemon.switchFlag),
 		);
 
 		for (let i = 0; i < this.sides.length; i++) {
@@ -878,7 +878,7 @@ export const Scripts: ModdedBattleScriptsData = {
 						if (this.ended) return true;
 						if (pokemon.fainted) {
 							switches[i] = this.sides[i].active.some(
-								(sidePokemon) =>
+								sidePokemon =>
 									sidePokemon && !!sidePokemon.switchFlag,
 							);
 						}
@@ -969,9 +969,9 @@ export const Scripts: ModdedBattleScriptsData = {
 			} else if (move.multihitType === "parentalbond" && move.hit > 1) {
 				// Parental Bond modifier
 				const bondModifier =
-					this.battle.gen > 6 && !pokemon.hasAbility("Almost Frosty")
-						? 0.25
-						: 0.5;
+					this.battle.gen > 6 && !pokemon.hasAbility("Almost Frosty") ?
+						0.25 :
+						0.5;
 				this.battle.debug(`Parental Bond modifier: ${bondModifier}`);
 				baseDamage = this.battle.modify(baseDamage, bondModifier);
 			}
@@ -990,7 +990,7 @@ export const Scripts: ModdedBattleScriptsData = {
 			if (isCrit) {
 				baseDamage = tr(
 					baseDamage *
-						(move.critModifier || (this.battle.gen >= 6 ? 1.5 : 2)),
+					(move.critModifier || (this.battle.gen >= 6 ? 1.5 : 2)),
 				);
 			} else {
 				if (move.id === "megidolaon") delete move.volatileStatus;
@@ -1476,9 +1476,9 @@ export const Scripts: ModdedBattleScriptsData = {
 					(move.id === "toxic" &&
 						this.battle.gen >= 8 &&
 						pokemon.hasType("Poison")) ||
-					(move.target === "self" &&
-						move.category === "Status" &&
-						!target.isSemiInvulnerable())
+						(move.target === "self" &&
+							move.category === "Status" &&
+							!target.isSemiInvulnerable())
 				) {
 					accuracy = true; // bypasses ohko accuracy modifiers
 				} else {
@@ -1658,9 +1658,9 @@ export const Scripts: ModdedBattleScriptsData = {
 				zMove,
 				maxMove,
 			});
-			this.battle.lastSuccessfulMoveThisTurn = moveDidSomething
-				? this.battle.activeMove && this.battle.activeMove.id
-				: null;
+			this.battle.lastSuccessfulMoveThisTurn = moveDidSomething ?
+				this.battle.activeMove && this.battle.activeMove.id :
+				null;
 			if (this.battle.activeMove) move = this.battle.activeMove;
 			this.battle.singleEvent(
 				"AfterMove",
@@ -1703,9 +1703,9 @@ export const Scripts: ModdedBattleScriptsData = {
 						"ability: " + dancer.getAbility().name,
 					);
 					const dancersTarget =
-						!targetOf1stDance.isAlly(dancer) && pokemon.isAlly(dancer)
-							? targetOf1stDance
-							: pokemon;
+						!targetOf1stDance.isAlly(dancer) && pokemon.isAlly(dancer) ?
+							targetOf1stDance :
+							pokemon;
 					const dancersTargetLoc = dancer.getLocOf(dancersTarget);
 					this.runMove(move.id, dancer, dancersTargetLoc, {
 						sourceEffect: dancer.getAbility(),
@@ -1883,9 +1883,9 @@ export const Scripts: ModdedBattleScriptsData = {
 				"attackofopportunity",
 			];
 			const callerMoveForPressure =
-				sourceEffect && (sourceEffect as ActiveMove).pp
-					? (sourceEffect as ActiveMove)
-					: null;
+				sourceEffect && (sourceEffect as ActiveMove).pp ?
+					(sourceEffect as ActiveMove) :
+					null;
 			if (
 				!sourceEffect ||
 				callerMoveForPressure ||
@@ -2068,7 +2068,7 @@ export const Scripts: ModdedBattleScriptsData = {
 					(!isSleepUsable || this.battle.gen === 4)
 				)
 					break;
-				if (targets.every((target) => !target?.hp)) break;
+				if (targets.every(target => !target?.hp)) break;
 				move.hit = hit;
 				if (move.smartTarget && targets.length > 1) {
 					targetsCopy = [targets[hit - 1]];
@@ -2171,7 +2171,7 @@ export const Scripts: ModdedBattleScriptsData = {
 					moveDamage = moveDamageThisHit;
 				}
 
-				if (!moveDamage.some((val) => val !== false)) break;
+				if (!moveDamage.some(val => val !== false)) break;
 				nullDamage = false;
 
 				for (const [i, md] of moveDamage.entries()) {
@@ -2274,12 +2274,12 @@ export const Scripts: ModdedBattleScriptsData = {
 
 			if (move.ohko && !targets[0].hp) this.battle.add("-ohko");
 
-			if (!damage.some((val) => !!val || val === 0)) return damage;
+			if (!damage.some(val => !!val || val === 0)) return damage;
 
 			this.battle.eachEvent("Update");
 
 			this.afterMoveSecondaryEvent(
-				targetsCopy.filter((val) => !!val),
+				targetsCopy.filter(val => !!val),
 				pokemon,
 				move,
 			);
@@ -2336,8 +2336,8 @@ export const Scripts: ModdedBattleScriptsData = {
 						pokemon.hasAbility("youkaiofthedusk") ||
 						pokemon.volatiles["irpachuza"] ||
 						pokemon.hasAbility("neverendingfhunt")) &&
-					!targets[i].isAlly(pokemon) &&
-					!this.dex.getImmunity("prankster", target)
+						!targets[i].isAlly(pokemon) &&
+						!this.dex.getImmunity("prankster", target)
 				) {
 					this.battle.debug("natural prankster immunity");
 					if (!target.illusion)
@@ -2384,7 +2384,7 @@ export const Scripts: ModdedBattleScriptsData = {
 				(move.target === "foeSide" ||
 					move.target === "allySide" ||
 					move.target === "allyTeam") &&
-				!isSelf
+					!isSelf
 			) {
 				hitResult = this.battle.singleEvent(
 					"TryHitSide",
@@ -2567,12 +2567,12 @@ export const Scripts: ModdedBattleScriptsData = {
 		effectiveWeather() {
 			const weather = this.battle.field.effectiveWeather();
 			switch (weather) {
-				case "sunnyday":
-				case "raindance":
-				case "desolateland":
-				case "primordialsea":
-				case "stormsurge":
-					if (this.hasItem("utilityumbrella")) return "";
+			case "sunnyday":
+			case "raindance":
+			case "desolateland":
+			case "primordialsea":
+			case "stormsurge":
+				if (this.hasItem("utilityumbrella")) return "";
 			}
 			return weather;
 		},
@@ -2580,51 +2580,51 @@ export const Scripts: ModdedBattleScriptsData = {
 			let targets: Pokemon[] = [];
 
 			switch (move.target) {
-				case "all":
-				case "foeSide":
-				case "allySide":
-				case "allyTeam":
-					if (!move.target.startsWith("foe")) {
-						targets.push(...this.alliesAndSelf());
-					}
-					if (!move.target.startsWith("ally")) {
-						targets.push(...this.foes(true));
-					}
-					if (targets.length && !targets.includes(target)) {
-						this.battle.retargetLastMove(targets[targets.length - 1]);
-					}
-					break;
-				case "allAdjacent":
-					targets.push(...this.adjacentAllies());
+			case "all":
+			case "foeSide":
+			case "allySide":
+			case "allyTeam":
+				if (!move.target.startsWith("foe")) {
+					targets.push(...this.alliesAndSelf());
+				}
+				if (!move.target.startsWith("ally")) {
+					targets.push(...this.foes(true));
+				}
+				if (targets.length && !targets.includes(target)) {
+					this.battle.retargetLastMove(targets[targets.length - 1]);
+				}
+				break;
+			case "allAdjacent":
+				targets.push(...this.adjacentAllies());
 				// falls through
-				case "allAdjacentFoes":
-					targets.push(...this.adjacentFoes());
-					if (targets.length && !targets.includes(target)) {
-						this.battle.retargetLastMove(targets[targets.length - 1]);
-					}
-					break;
-				case "allies":
-					targets = this.alliesAndSelf();
-					break;
-				default:
-					const selectedTarget = target;
-					if (
-						!target ||
-						(target.fainted &&
-							!target.isAlly(this) &&
-							this.battle.gameType !== "freeforall")
-					) {
-						// If a targeted foe faints, the move is retargeted
-						const possibleTarget = this.battle.getRandomTarget(
-							this,
-							move,
-						);
-						if (!possibleTarget)
-							return { targets: [], pressureTargets: [] };
-						target = possibleTarget;
-					}
-					if (this.battle.activePerHalf > 1 && !move.tracksTarget) {
-						const isCharging =
+			case "allAdjacentFoes":
+				targets.push(...this.adjacentFoes());
+				if (targets.length && !targets.includes(target)) {
+					this.battle.retargetLastMove(targets[targets.length - 1]);
+				}
+				break;
+			case "allies":
+				targets = this.alliesAndSelf();
+				break;
+			default:
+				const selectedTarget = target;
+				if (
+					!target ||
+					(target.fainted &&
+						!target.isAlly(this) &&
+						this.battle.gameType !== "freeforall")
+				) {
+					// If a targeted foe faints, the move is retargeted
+					const possibleTarget = this.battle.getRandomTarget(
+						this,
+						move,
+					);
+					if (!possibleTarget)
+						return { targets: [], pressureTargets: [] };
+					target = possibleTarget;
+				}
+				if (this.battle.activePerHalf > 1 && !move.tracksTarget) {
+					const isCharging =
 							move.flags["charge"] &&
 							!this.volatiles["twoturnmove"] &&
 							!(
@@ -2650,28 +2650,28 @@ export const Scripts: ModdedBattleScriptsData = {
 								)
 							) &&
 							!(this.hasItem("powerherb") && move.id !== "skydrop");
-						if (!isCharging) {
-							target = this.battle.priorityEvent(
-								"RedirectTarget",
-								this,
-								this,
-								move,
-								target,
-							);
-						}
+					if (!isCharging) {
+						target = this.battle.priorityEvent(
+							"RedirectTarget",
+							this,
+							this,
+							move,
+							target,
+						);
 					}
-					if (move.smartTarget) {
-						targets = this.getSmartTargets(target, move);
-						target = targets[0];
-					} else {
-						targets.push(target);
-					}
-					if (target.fainted && !move.flags["futuremove"]) {
-						return { targets: [], pressureTargets: [] };
-					}
-					if (selectedTarget !== target) {
-						this.battle.retargetLastMove(target);
-					}
+				}
+				if (move.smartTarget) {
+					targets = this.getSmartTargets(target, move);
+					target = targets[0];
+				} else {
+					targets.push(target);
+				}
+				if (target.fainted && !move.flags["futuremove"]) {
+					return { targets: [], pressureTargets: [] };
+				}
+				if (selectedTarget !== target) {
+					this.battle.retargetLastMove(target);
+				}
 			}
 
 			// Resolve apparent targets for Pressure.
@@ -2690,43 +2690,43 @@ export const Scripts: ModdedBattleScriptsData = {
 		getChoice() {
 			if (
 				this.choice.actions.length > 1 &&
-				this.choice.actions.every((action) => action.choice === "team")
+				this.choice.actions.every(action => action.choice === "team")
 			) {
 				return (
 					`team ` +
 					this.choice.actions
-						.map((action) => action.pokemon!.position + 1)
+						.map(action => action.pokemon!.position + 1)
 						.join(", ")
 				);
 			}
 			return this.choice.actions
-				.map((action) => {
+				.map(action => {
 					switch (action.choice) {
-						case "move":
-							let details = ``;
-							if (action.targetLoc && this.active.length > 1)
-								details += ` ${action.targetLoc > 0 ? "+" : ""}${action.targetLoc}`;
-							if (action.mega)
-								details +=
-									action.pokemon!.item === "ultranecroziumz"
-										? ` ultra`
-										: ` mega`;
-							if (action.megax) details += ` megax`;
-							if (action.megay) details += ` megay`;
-							if (action.zmove) details += ` zmove`;
-							if (action.maxMove) details += ` dynamax`;
-							if (action.terastallize) details += ` terastallize`;
-							return `move ${action.moveid}${details}`;
-						case "switch":
-						case "instaswitch":
-						case "revivalblessing":
+					case "move":
+						let details = ``;
+						if (action.targetLoc && this.active.length > 1)
+							details += ` ${action.targetLoc > 0 ? "+" : ""}${action.targetLoc}`;
+						if (action.mega)
+							details +=
+									action.pokemon!.item === "ultranecroziumz" ?
+										` ultra` :
+										` mega`;
+						if (action.megax) details += ` megax`;
+						if (action.megay) details += ` megay`;
+						if (action.zmove) details += ` zmove`;
+						if (action.maxMove) details += ` dynamax`;
+						if (action.terastallize) details += ` terastallize`;
+						return `move ${action.moveid}${details}`;
+					case "switch":
+					case "instaswitch":
+					case "revivalblessing":
 						// @ts-expect-error custom status falls through
-						case "scapegoat":
-							return `switch ${action.target!.position + 1}`;
-						case "team":
-							return `team ${action.pokemon!.position + 1}`;
-						default:
-							return action.choice;
+					case "scapegoat":
+						return `switch ${action.target!.position + 1}`;
+					case "team":
+						return `team ${action.pokemon!.position + 1}`;
+					default:
+						return action.choice;
 					}
 				})
 				.join(", ");
@@ -2856,7 +2856,7 @@ export const Scripts: ModdedBattleScriptsData = {
 						`Can't switch: The active Pokémon is trapped`,
 						{
 							pokemon,
-							update: (req) => {
+							update: req => {
 								let updated = false;
 								if (req.maybeTrapped) {
 									delete req.maybeTrapped;
