@@ -343,9 +343,12 @@ export class TeamValidator {
 			skipSets?: { [name: string]: { [key: string]: boolean } },
 		} = {}
 	): string[] | null {
+		// console.log({ team, options });
 		if (team && this.format.validateTeam) {
+			// console.log("A");
 			return this.format.validateTeam.call(this, team, options) || null;
 		}
+		console.log("B");
 		return this.baseValidateTeam(team, options);
 	}
 
@@ -553,6 +556,7 @@ export class TeamValidator {
 		return { outOfBattleSpecies, tierSpecies };
 	}
 
+	// KN: here the whole set is validated.
 	validateSet(set: PokemonSet, teamHas: AnyObject): string[] | null {
 		const format = this.format;
 		const dex = this.dex;
@@ -640,6 +644,14 @@ export class TeamValidator {
 		species = dex.species.get(set.species);
 		item = dex.items.get(set.item);
 		ability = dex.abilities.get(set.ability);
+
+		let fusionSpecies = null;
+		if (set.fusionSpecies) {
+			fusionSpecies = dex.species.get(set.fusionSpecies);
+			if (!fusionSpecies.exists) {
+				problems.push(`The Fusion Pokemon "${set.fusionSpecies}" does not exist.`);
+			}
+		}
 
 		if (!['M', 'F'].includes(set.gender)) set.gender = '';
 		if (this.gen <= 5 || ruleTable.has('obtainablemisc')) {
@@ -731,13 +743,22 @@ export class TeamValidator {
 			} else {
 				if (!ability.name || ability.name === 'No Ability') {
 					problems.push(`${name} needs to have an ability.`);
-				} else if (!Object.values(species.abilities).includes(ability.name)) {
-					if (tierSpecies.abilities[0] === ability.name) {
-						set.ability = species.abilities[0];
-					} else {
-						problems.push(`${name} can't have ${set.ability}.`);
+				} else {
+					// Check base species abilities
+					const baseAbilities = Object.values(species.abilities);
+					// Check fusion species abilities (if it exists)
+					const fusionAbilities = fusionSpecies ? Object.values(fusionSpecies.abilities) : [];
+
+					// Allow if ability is in EITHER list
+					if (!baseAbilities.includes(ability.name) && !fusionAbilities.includes(ability.name)) {
+						if (tierSpecies.abilities[0] === ability.name) {
+							set.ability = species.abilities[0];
+						} else {
+							problems.push(`${name} can't have ${set.ability}.`);
+						}
 					}
 				}
+
 				if (ability.name === species.abilities['H']) {
 					setSources.isHidden = true;
 
@@ -803,6 +824,16 @@ export class TeamValidator {
 		for (const moveName of set.moves) {
 			if (!moveName) continue;
 			const move = dex.moves.get(Utils.getString(moveName));
+
+			if (fusionSpecies) {
+				const fusionLearnset = dex.species.getLearnsetData(fusionSpecies.id);
+				// If the fusion species can learn it, whitelist it immediately
+				if (fusionLearnset.learnset?.[move.id]) {
+					moveLegalityWhitelist[move.id] = true;
+					continue; // Skip standard validation for this move
+				}
+			}
+
 			if (!move.exists) return [`"${move.name}" is an invalid move.`];
 
 			problem = this.checkMove(set, move, setHas);
@@ -857,6 +888,7 @@ export class TeamValidator {
 
 		let moveProblems;
 		if (ruleTable.has('obtainablemoves')) {
+			console.trace({ outOfBattleSpecies, setSources, set, name, moveLegalityWhitelist });
 			moveProblems = this.validateMoves(outOfBattleSpecies, set.moves, setSources, set, name, moveLegalityWhitelist);
 			problems.push(...moveProblems);
 		}

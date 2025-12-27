@@ -114,6 +114,7 @@ export interface PokemonSet {
 	 */
 	teraType?: string;
 
+	// KN: update this so that it is a full Set
 	fusionSpecies?: string;
 }
 
@@ -329,9 +330,9 @@ export const Teams = new class Teams {
 			j = buf.indexOf(']', i);
 			let misc;
 			if (j < 0) {
-				if (i < buf.length) misc = buf.substring(i).split(',', 6);
+				if (i < buf.length) misc = buf.substring(i).split(',', 7);
 			} else {
-				if (i !== j) misc = buf.substring(i, j).split(',', 6);
+				if (i !== j) misc = buf.substring(i, j).split(',', 7);
 			}
 			if (misc) {
 				set.happiness = (misc[0] ? Number(misc[0]) : 255);
@@ -341,8 +342,6 @@ export const Teams = new class Teams {
 				set.dynamaxLevel = (misc[4] ? Number(misc[4]) : 10);
 				set.teraType = misc[5];
 
-				// This could break if we're playing non-fusion formats
-				// Check again later
 				set.fusionSpecies = this.unpackName(misc[6], Dex.species);
 			}
 			if (j < 0) break;

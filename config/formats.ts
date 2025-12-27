@@ -569,6 +569,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 	{
 		name: "[Gen 9] National Dex Generation 9",
 		mod: "gen9",
+		gameType: "doubles",
 		ruleset: [
 			"Standard NatDex",
 			"Sleep Moves Clause",
@@ -588,6 +589,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 	},	{
 		name: "[Gen 9] National Dex Generation 8",
 		mod: "gen9",
+		gameType: "doubles",
 		ruleset: [
 			"Standard NatDex",
 			"Sleep Moves Clause",
@@ -608,6 +610,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 	},	{
 		name: "[Gen 9] National Dex Generation 7",
 		mod: "gen9",
+		gameType: "doubles",
 		ruleset: [
 			"Standard NatDex",
 			"Sleep Moves Clause",
@@ -628,6 +631,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 	},	{
 		name: "[Gen 9] National Dex Generation 6",
 		mod: "gen9",
+		gameType: "doubles",
 		ruleset: [
 			"Standard NatDex",
 			"Sleep Moves Clause",
@@ -648,6 +652,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 	},	{
 		name: "[Gen 9] National Dex Generation 5",
 		mod: "gen9",
+		gameType: "doubles",
 		ruleset: [
 			"Standard NatDex",
 			"Sleep Moves Clause",
@@ -668,6 +673,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 	},	{
 		name: "[Gen 9] National Dex Generation 4",
 		mod: "gen9",
+		gameType: "doubles",
 		ruleset: [
 			"Standard NatDex",
 			"Sleep Moves Clause",
@@ -689,6 +695,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 	{
 		name: "[Gen 9] National Dex Generation 3",
 		mod: "gen9",
+		gameType: "doubles",
 		ruleset: [
 			"Standard NatDex",
 			"Sleep Moves Clause",
@@ -710,6 +717,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 	{
 		name: "[Gen 9] National Dex Generation 2",
 		mod: "gen9",
+		gameType: "doubles",
 		ruleset: [
 			"Standard NatDex",
 			"Sleep Moves Clause",
@@ -731,6 +739,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 	{
 		name: "[Gen 9] National Dex Generation 1",
 		mod: "gen9",
+		gameType: "doubles",
 		ruleset: [
 			"Standard NatDex",
 			"Sleep Moves Clause",
@@ -749,20 +758,4 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Baton Pass",
 		],
 	},
-	// {
-	// 	name: "Generation 1 Fusion Pokemons",
-	// 	mod: "gen9",
-	// 	ruleset: ["Standard NatDex", "Only Gen 1"],
-	// 	banlist: [
-	// 		"ND Uber",
-	// 		"Arena Trap",
-	// 		"Moody",
-	// 		"Power Construct",
-	// 		"Shadow Tag",
-	// 		"King's Rock",
-	// 		"Razor Fang",
-	// 		"Quick Claw",
-	// 		"Baton Pass",
-	// 	],
-	// },
 ];

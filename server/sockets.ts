@@ -52,6 +52,7 @@ export const Sockets = new class {
 				const idx = data.indexOf('\n');
 				const socketid = data.substr(1, idx - 1);
 				const message = data.substr(idx + 1);
+				console.log("message received:", message);
 				Users.socketReceive(worker, id, socketid, message);
 				break;
 			}

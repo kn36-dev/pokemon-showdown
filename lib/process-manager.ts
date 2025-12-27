@@ -177,6 +177,7 @@ export class QueryProcessWrapper<T, U> implements ProcessWrapper {
 		return this.pendingTasks.size;
 	}
 
+	// KN: step 3, start the processing
 	query(input: T): Promise<U> {
 		this.taskId++;
 		const taskId = this.taskId;
@@ -560,6 +561,8 @@ export class QueryProcessManager<T = string, U = string> extends ProcessManager<
 
 		processManagers.push(this);
 	}
+
+	// KN: step 2, should correctly start the input process
 	async query(input: T, process = this.acquire()) {
 		if (!process) return this._query(input);
 
