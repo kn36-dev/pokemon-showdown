@@ -348,7 +348,7 @@ export class TeamValidator {
 			// console.log("A");
 			return this.format.validateTeam.call(this, team, options) || null;
 		}
-		console.log("B");
+		// console.log("B");
 		return this.baseValidateTeam(team, options);
 	}
 
@@ -888,7 +888,7 @@ export class TeamValidator {
 
 		let moveProblems;
 		if (ruleTable.has('obtainablemoves')) {
-			console.trace({ outOfBattleSpecies, setSources, set, name, moveLegalityWhitelist });
+			// console.trace({ outOfBattleSpecies, setSources, set, name, moveLegalityWhitelist });
 			moveProblems = this.validateMoves(outOfBattleSpecies, set.moves, setSources, set, name, moveLegalityWhitelist);
 			problems.push(...moveProblems);
 		}

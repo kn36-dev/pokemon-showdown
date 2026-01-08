@@ -114,7 +114,6 @@ export interface PokemonSet {
 	 */
 	teraType?: string;
 
-	// KN: update this so that it is a full Set
 	fusionSpecies?: string;
 }
 

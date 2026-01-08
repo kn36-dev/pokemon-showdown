@@ -25,7 +25,7 @@ export const PM = new QueryProcessManager<{
 	try {
 		const currentFormat = TeamValidator.get(formatid);
 		// console.log({ formatid, parsedTeam });
-		console.log({ currentFormat });
+		// console.log({ currentFormat });
 		problems = currentFormat.validateTeam(parsedTeam, options);
 	} catch (err) {
 		Monitor.crashlog(err, 'A team validation', {
@@ -58,7 +58,7 @@ export class TeamValidatorAsync {
 
 	// KN: step 1, should receive correct team
 	validateTeam(team: string, options?: { removeNicknames?: boolean, user?: ID }) {
-		console.trace({ teamInValidateTeam: team });
+		// console.trace({ teamInValidateTeam: team });
 		let formatid = this.format.id;
 		if (this.format.customRules) formatid += '@@@' + this.format.customRules.join(',');
 		if (team.length > (25 * 1024 - 6)) { // don't even let it go to the child process

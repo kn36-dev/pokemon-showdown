@@ -34,7 +34,7 @@ const searches = new Map<string, {
  */
 class Ladder extends LadderStore {
 	async prepBattle(connection: Connection, challengeType: ChallengeType, team: string | null = null, isRated = false) {
-		console.trace("Who calls prepBattle?");
+		// console.trace("Who calls prepBattle?");
 
 		// all validation for a battle goes through here
 		const user = connection.user;
