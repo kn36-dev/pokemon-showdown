@@ -574,6 +574,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Standard NatDex",
 			"Sleep Moves Clause",
 			"!Sleep Clause Mod",
+			"Terastal Clause",
 		],
 		banlist: [
 			"ND Uber",
@@ -595,6 +596,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Sleep Moves Clause",
 			"!Sleep Clause Mod",
 			"Only Gen 1",
+			"Terastal Clause",
 		],
 		banlist: [
 			"ND Uber",
@@ -616,6 +618,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Sleep Moves Clause",
 			"!Sleep Clause Mod",
 			"Only Gen 1",
+			"Terastal Clause",
 		],
 		banlist: [
 			"ND Uber",
@@ -637,6 +640,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Sleep Moves Clause",
 			"!Sleep Clause Mod",
 			"Only Gen 1",
+			"Terastal Clause",
 		],
 		banlist: [
 			"ND Uber",
@@ -658,6 +662,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Sleep Moves Clause",
 			"!Sleep Clause Mod",
 			"Only Gen 1",
+			"Terastal Clause",
 		],
 		banlist: [
 			"ND Uber",
@@ -679,6 +684,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Sleep Moves Clause",
 			"!Sleep Clause Mod",
 			"Only Gen 1",
+			"Terastal Clause",
 		],
 		banlist: [
 			"ND Uber",
@@ -701,6 +707,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Sleep Moves Clause",
 			"!Sleep Clause Mod",
 			"Only Gen 1",
+			"Terastal Clause",
 		],
 		banlist: [
 			"ND Uber",
@@ -723,6 +730,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Sleep Moves Clause",
 			"!Sleep Clause Mod",
 			"Only Gen 1",
+			"Terastal Clause",
 		],
 		banlist: [
 			"ND Uber",
@@ -745,6 +753,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Sleep Moves Clause",
 			"!Sleep Clause Mod",
 			"Only Gen 1",
+			"Terastal Clause",
 		],
 		banlist: [
 			"ND Uber",
