@@ -8,6 +8,7 @@
 import { State } from './state';
 import { toID } from './dex';
 import type { DynamaxOptions, PokemonMoveRequestData, PokemonSwitchRequestData } from './side';
+import { getFusionTypes, getFusionBaseStats, getFusionWeight } from "./pokemon-fusion";
 
 /** A Pokemon's move slot. */
 interface MoveSlot {
@@ -85,6 +86,9 @@ export class Pokemon {
 	baseSpecies: Species;
 	species: Species;
 	speciesState: EffectState;
+
+	// Fusion logic
+	fusionSpecies: Species;
 
 	status: ID;
 	statusState: EffectState;
@@ -311,6 +315,7 @@ export class Pokemon {
 		this.m = {};
 
 		const pokemonScripts = this.battle.format.pokemon || this.battle.dex.data.Scripts.pokemon;
+
 		if (pokemonScripts) Object.assign(this, pokemonScripts);
 
 		if (typeof set === 'string') set = { name: set };
@@ -319,7 +324,39 @@ export class Pokemon {
 		if (!this.baseSpecies.exists) {
 			throw new Error(`Unidentified species: ${this.baseSpecies.name}`);
 		}
+
+		this.fusionSpecies = this.battle.dex.species.get(set.fusionSpecies);
+		if (this.fusionSpecies.exists) {
+			// 1. Calculate Fusion Types (Ported from battle-fusion.js)
+			const headTypes = this.baseSpecies.types;
+			const bodyTypes = this.fusionSpecies.types;
+
+			const fusedTypes = getFusionTypes(headTypes, bodyTypes);
+
+			const headBaseStats = this.baseSpecies.baseStats;
+			const bodyBaseStats = this.fusionSpecies.baseStats;
+
+			const fusedBaseStats = getFusionBaseStats(headBaseStats, bodyBaseStats);
+			// const fusedBaseStats =
+
+			const headWeight = this.baseSpecies.weightkg;
+			const bodyWeight = this.fusionSpecies.weightkg;
+			const fusedWeight = getFusionWeight(headWeight, bodyWeight);
+
+			// Correctly calc the spriteId
+			const fusionSpriteId = '';
+			// Correctly allow the abilities
+			const fusionAbilities = '';
+			this.baseSpecies = { ...this.baseSpecies,
+				baseStats: fusedBaseStats,
+				types: fusedTypes,
+				weightkg: fusedWeight,
+			};
+		}
+
 		this.set = set as PokemonSet;
+
+		// console.log({ currentBaseSpecies: this.baseSpecies });
 
 		this.species = this.baseSpecies;
 		if (set.name === set.species || !set.name) {
@@ -414,6 +451,7 @@ export class Pokemon {
 
 		this.baseAbility = toID(set.ability);
 		this.ability = this.baseAbility;
+		// console.log("Ability chosen: ", this.ability);
 		this.abilityState = this.battle.initEffectState({ id: this.ability, target: this });
 
 		this.item = toID(set.item);
@@ -527,8 +565,11 @@ export class Pokemon {
 		let name = this.species.name;
 		if (['Greninja-Bond', 'Rockruff-Dusk'].includes(name)) name = this.species.baseSpecies;
 		if (!level) level = this.level;
-		return name + (level === 100 ? '' : `, L${level}`) +
-			(this.gender === '' ? '' : `, ${this.gender}`) + (this.set.shiny ? ', shiny' : '');
+		const returnedResult = name + (level === 100 ? '' : `, L${level}`) +
+			(this.gender === '' ? '' : `, ${this.gender}`) + (this.set.shiny ? ', shiny' : '') +
+			(this.fusionSpecies ? `, fusion: ${this.fusionSpecies.name}` : '');
+		// console.trace('getUpdatedDetails called!');
+		return returnedResult;
 	}
 
 	getFullDetails = () => {
@@ -1407,6 +1448,7 @@ export class Pokemon {
 		if (isPermanent) {
 			this.baseSpecies = rawSpecies;
 			this.details = this.getUpdatedDetails();
+			// console.log({ fullDetails: this.details });
 			let details = (this.illusion || this).details;
 			if (this.terastallized) details += `, tera:${this.terastallized}`;
 			this.battle.add('detailschange', this, details);

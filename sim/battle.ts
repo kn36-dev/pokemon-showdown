@@ -300,6 +300,7 @@ export class Battle {
 				const hasEventHandler = Object.keys(subFormat).some(
 					// skip event handlers that are handled elsewhere
 					val => val.startsWith('on') && ![
+						// KN: can possibly research this for fusion logic
 						'onBegin', 'onTeamPreview', 'onBattleStart', 'onValidateRule', 'onValidateTeam', 'onChangeSet', 'onValidateSet',
 					].includes(val)
 				);
@@ -1950,7 +1951,8 @@ export class Battle {
 				// Still need to hide these formes since they change on battle start
 				const details = pokemon.details.replace(', shiny', '')
 					.replace(/(Zacian|Zamazenta)(?!-Crowned)/g, '$1-*')
-					.replace(/(Xerneas)(-[a-zA-Z?-]+)?/g, '$1-*');
+					.replace(/(Xerneas)(-[a-zA-Z?-]+)?/g, '$1-*')
+					.replace(/(Greninja)(-[a-zA-Z?-]+)?/g, '$1');
 				this.addSplit(pokemon.side.id, ['poke', pokemon.side.id, details, '']);
 			}
 			this.makeRequest('teampreview');
@@ -3164,6 +3166,7 @@ export class Battle {
 	getTeam(options: PlayerOptions): PokemonSet[] {
 		let team = options.team;
 		if (typeof team === 'string') team = Teams.unpack(team);
+		// console.log({ unpackedTeam: team });
 		if (team) return team;
 
 		if (!options.seed) {
@@ -3230,6 +3233,7 @@ export class Battle {
 			// create player
 			const team = this.getTeam(options);
 			side = new Side(options.name || `Player ${slotNum + 1}`, this, slotNum, team);
+			// console.log({ side });
 			if (options.avatar) side.avatar = `${options.avatar}`;
 			this.sides[slotNum] = side;
 		} else {

@@ -113,6 +113,8 @@ export interface PokemonSet {
 	 * Tera Type
 	 */
 	teraType?: string;
+
+	fusionSpecies?: string;
 }
 
 export const Teams = new class Teams {
@@ -198,13 +200,15 @@ export const Teams = new class Teams {
 				buf += '|';
 			}
 
+			// KN: do something here
 			if (set.pokeball || set.hpType || set.gigantamax ||
-				(set.dynamaxLevel !== undefined && set.dynamaxLevel !== 10) || set.teraType) {
+				(set.dynamaxLevel !== undefined && set.dynamaxLevel !== 10) || set.teraType || set.fusionSpecies) {
 				buf += `,${set.hpType || ''}`;
 				buf += `,${this.packName(set.pokeball || '')}`;
 				buf += `,${set.gigantamax ? 'G' : ''}`;
 				buf += `,${set.dynamaxLevel !== undefined && set.dynamaxLevel !== 10 ? set.dynamaxLevel : ''}`;
 				buf += `,${set.teraType || ''}`;
+				buf += `,${this.packName(set.fusionSpecies || '')}`;
 			}
 		}
 
@@ -325,9 +329,9 @@ export const Teams = new class Teams {
 			j = buf.indexOf(']', i);
 			let misc;
 			if (j < 0) {
-				if (i < buf.length) misc = buf.substring(i).split(',', 6);
+				if (i < buf.length) misc = buf.substring(i).split(',', 7);
 			} else {
-				if (i !== j) misc = buf.substring(i, j).split(',', 6);
+				if (i !== j) misc = buf.substring(i, j).split(',', 7);
 			}
 			if (misc) {
 				set.happiness = (misc[0] ? Number(misc[0]) : 255);
@@ -336,6 +340,8 @@ export const Teams = new class Teams {
 				set.gigantamax = !!misc[3];
 				set.dynamaxLevel = (misc[4] ? Number(misc[4]) : 10);
 				set.teraType = misc[5];
+
+				set.fusionSpecies = this.unpackName(misc[6], Dex.species);
 			}
 			if (j < 0) break;
 			i = j + 1;

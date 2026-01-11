@@ -34,6 +34,8 @@ const searches = new Map<string, {
  */
 class Ladder extends LadderStore {
 	async prepBattle(connection: Connection, challengeType: ChallengeType, team: string | null = null, isRated = false) {
+		// console.trace("Who calls prepBattle?");
+
 		// all validation for a battle goes through here
 		const user = connection.user;
 		const userid = user.id;
@@ -125,6 +127,7 @@ class Ladder extends LadderStore {
 		}
 
 		if (!valResult.startsWith('1')) {
+			// console.log("ladders line 128");
 			connection.popup(
 				`Your team was rejected for the following reasons:\n\n` +
 				`- ` + valResult.slice(1).replace(/\n/g, `\n- `)

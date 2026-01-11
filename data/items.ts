@@ -1930,13 +1930,13 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		},
 		onModifyDefPriority: 2,
 		onModifyDef(def, pokemon) {
-			if (pokemon.baseSpecies.nfe) {
+			if (pokemon.baseSpecies.nfe || (pokemon.fusionSpecies?.nfe)) {
 				return this.chainModify(1.5);
 			}
 		},
 		onModifySpDPriority: 2,
 		onModifySpD(spd, pokemon) {
-			if (pokemon.baseSpecies.nfe) {
+			if (pokemon.baseSpecies.nfe || (pokemon.fusionSpecies?.nfe)) {
 				return this.chainModify(1.5);
 			}
 		},
@@ -3428,7 +3428,10 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		},
 		spritenum: 475,
 		onModifyCritRatio(critRatio, user) {
-			if (["farfetchd", "sirfetchd"].includes(this.toID(user.baseSpecies.baseSpecies))) {
+			const baseSpeciesMatches = ["farfetchd", "sirfetchd"].includes(this.toID(user.baseSpecies.baseSpecies));
+			const fusionSpeciesMatches = ["farfetchd", "sirfetchd"].includes(this.toID(user.fusionSpecies?.baseSpecies));
+
+			if (baseSpeciesMatches || fusionSpeciesMatches) {
 				return critRatio + 2;
 			}
 		},
@@ -3529,13 +3532,13 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		},
 		onModifyAtkPriority: 1,
 		onModifyAtk(atk, pokemon) {
-			if (pokemon.baseSpecies.baseSpecies === 'Pikachu') {
+			if (pokemon.baseSpecies.baseSpecies === 'Pikachu' || pokemon.fusionSpecies?.baseSpecies === 'Pikachu') {
 				return this.chainModify(2);
 			}
 		},
 		onModifySpAPriority: 1,
 		onModifySpA(spa, pokemon) {
-			if (pokemon.baseSpecies.baseSpecies === 'Pikachu') {
+			if (pokemon.baseSpecies.baseSpecies === 'Pikachu' || pokemon.fusionSpecies?.baseSpecies === 'Pikachu') {
 				return this.chainModify(2);
 			}
 		},
@@ -3633,7 +3636,7 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 			basePower: 40,
 		},
 		onModifyCritRatio(critRatio, user) {
-			if (user.baseSpecies.name === 'Chansey') {
+			if (user.baseSpecies.name === 'Chansey' || user.fusionSpecies?.name === 'Chansey') {
 				return critRatio + 2;
 			}
 		},
@@ -6040,8 +6043,10 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		},
 		onBasePowerPriority: 15,
 		onBasePower(basePower, user, target, move) {
+			const baseIsLatiTwins = user.baseSpecies.num === 380 || user.baseSpecies.num === 381;
+			const fusionIsLatiTwins = user.fusionSpecies && user.fusionSpecies.num === 380 || user.fusionSpecies.num === 381;
 			if (
-				move && (user.baseSpecies.num === 380 || user.baseSpecies.num === 381) &&
+				move && (baseIsLatiTwins || fusionIsLatiTwins) &&
 				(move.type === 'Psychic' || move.type === 'Dragon')
 			) {
 				return this.chainModify([4915, 4096]);
@@ -6258,7 +6263,9 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		},
 		spritenum: 475,
 		onModifyCritRatio(critRatio, user) {
-			if (this.toID(user.baseSpecies.baseSpecies) === 'farfetchd') {
+			const baseIsFarFetchd = this.toID(user.baseSpecies.baseSpecies) === 'farfetchd';
+			const fusionIsFarFetchd = this.toID(user.fusionSpecies?.baseSpecies) === 'farfetchd';
+			if (baseIsFarFetchd || fusionIsFarFetchd) {
 				return critRatio + 2;
 			}
 		},
@@ -6454,7 +6461,9 @@ export const Items: import('../sim/dex-items').ItemDataTable = {
 		},
 		onModifyAtkPriority: 1,
 		onModifyAtk(atk, pokemon) {
-			if (pokemon.baseSpecies.baseSpecies === 'Cubone' || pokemon.baseSpecies.baseSpecies === 'Marowak') {
+			const baseIsCuboneLine = pokemon.baseSpecies.baseSpecies === 'Cubone' || pokemon.baseSpecies.baseSpecies === 'Marowak';
+			const fusionIsCuboneLine = pokemon.fusionSpecies?.baseSpecies === 'Cubone' || pokemon.fusionSpecies?.baseSpecies === 'Marowak';
+			if (baseIsCuboneLine || fusionIsCuboneLine) {
 				return this.chainModify(2);
 			}
 		},

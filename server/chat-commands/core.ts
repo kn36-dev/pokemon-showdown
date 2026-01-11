@@ -1616,6 +1616,7 @@ export const commands: Chat.ChatCommands = {
 	saveteam: 'useteam',
 	utm: 'useteam',
 	useteam(target, room, user) {
+		// console.log("In useteam, ", target);
 		user.battleSettings.team = target;
 	},
 	useteamhelp: [`/useteam [packed team] - Sets your team for your next battles to the given [team].`],
@@ -1630,11 +1631,13 @@ export const commands: Chat.ChatCommands = {
 		const format = originalFormat.effectType === 'Format' ? originalFormat : Dex.formats.get('Anything Goes');
 		if (format.effectType !== 'Format') return this.popupReply(this.tr`Please provide a valid format.`);
 
+		// console.log("validateTeam called at vtm line 1633, " + user.battleSettings.team);
 		return TeamValidatorAsync.get(format.id).validateTeam(user.battleSettings.team, { user: user.id }).then(result => {
 			const matchMessage = (originalFormat === format ? "" : this.tr`The format '${originalFormat.name}' was not found.`);
 			if (result.startsWith('1')) {
 				connection.popup(`${(matchMessage ? matchMessage + "\n\n" : "")}${this.tr`Your team is valid for ${format.name}.`}`);
 			} else {
+				// console.log("core line 1638");
 				connection.popup(`${(matchMessage ? matchMessage + "\n\n" : "")}${this.tr`Your team was rejected for the following reasons:`}\n\n- ${result.slice(1).replace(/\n/g, '\n- ')}`);
 			}
 		});
