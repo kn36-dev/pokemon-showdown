@@ -3199,6 +3199,7 @@ export class Battle {
 					evs: null!,
 					ivs: null!,
 					level: set.level,
+					fusionSpecies: set.fusionSpecies,
 				};
 				if (this.gen === 8) newSet.gigantamax = set.gigantamax;
 				if (this.gen === 9) newSet.teraType = set.teraType;

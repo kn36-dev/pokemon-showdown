@@ -125,6 +125,8 @@ export const Teams = new class Teams {
 			return ivs[s] === 31 || ivs[s] === undefined ? '' : ivs[s].toString();
 		}
 
+		console.trace({ packTriggered: team });
+
 		let buf = '';
 		for (const set of team) {
 			if (buf) buf += ']';
