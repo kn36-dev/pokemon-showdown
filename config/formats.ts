@@ -32,18 +32,9 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"!Sleep Clause Mod",
 			"Terastal Clause",
 		],
-		banlist: [
-			"ND Uber",
-			"Arena Trap",
-			"Moody",
-			"Power Construct",
-			"Shadow Tag",
-			"King's Rock",
-			"Razor Fang",
-			"Quick Claw",
-			"Baton Pass",
-		],
-	},	{
+		banlist: ["Hidden Power", "Pursuit"],
+	},
+	{
 		name: "[Gen 9] National Dex Generation 8",
 		mod: "gen9",
 		gameType: "doubles",
@@ -54,18 +45,9 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Only Gen 1",
 			"Terastal Clause",
 		],
-		banlist: [
-			"ND Uber",
-			"Arena Trap",
-			"Moody",
-			"Power Construct",
-			"Shadow Tag",
-			"King's Rock",
-			"Razor Fang",
-			"Quick Claw",
-			"Baton Pass",
-		],
-	},	{
+		banlist: ["Hidden Power", "Pursuit"],
+	},
+	{
 		name: "[Gen 9] National Dex Generation 7",
 		mod: "gen9",
 		gameType: "doubles",
@@ -76,18 +58,9 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Only Gen 1",
 			"Terastal Clause",
 		],
-		banlist: [
-			"ND Uber",
-			"Arena Trap",
-			"Moody",
-			"Power Construct",
-			"Shadow Tag",
-			"King's Rock",
-			"Razor Fang",
-			"Quick Claw",
-			"Baton Pass",
-		],
-	},	{
+		banlist: ["Hidden Power", "Pursuit"],
+	},
+	{
 		name: "[Gen 9] National Dex Generation 6",
 		mod: "gen9",
 		gameType: "doubles",
@@ -98,18 +71,9 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Only Gen 1",
 			"Terastal Clause",
 		],
-		banlist: [
-			"ND Uber",
-			"Arena Trap",
-			"Moody",
-			"Power Construct",
-			"Shadow Tag",
-			"King's Rock",
-			"Razor Fang",
-			"Quick Claw",
-			"Baton Pass",
-		],
-	},	{
+		banlist: ["Hidden Power", "Pursuit"],
+	},
+	{
 		name: "[Gen 9] National Dex Generation 5",
 		mod: "gen9",
 		gameType: "doubles",
@@ -120,18 +84,9 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Only Gen 1",
 			"Terastal Clause",
 		],
-		banlist: [
-			"ND Uber",
-			"Arena Trap",
-			"Moody",
-			"Power Construct",
-			"Shadow Tag",
-			"King's Rock",
-			"Razor Fang",
-			"Quick Claw",
-			"Baton Pass",
-		],
-	},	{
+		banlist: ["Hidden Power", "Pursuit"],
+	},
+	{
 		name: "[Gen 9] National Dex Generation 4",
 		mod: "gen9",
 		gameType: "doubles",
@@ -142,17 +97,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Only Gen 1",
 			"Terastal Clause",
 		],
-		banlist: [
-			"ND Uber",
-			"Arena Trap",
-			"Moody",
-			"Power Construct",
-			"Shadow Tag",
-			"King's Rock",
-			"Razor Fang",
-			"Quick Claw",
-			"Baton Pass",
-		],
+		banlist: ["Hidden Power", "Pursuit"],
 	},
 	{
 		name: "[Gen 9] National Dex Generation 3",
@@ -165,17 +110,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Only Gen 1",
 			"Terastal Clause",
 		],
-		banlist: [
-			"ND Uber",
-			"Arena Trap",
-			"Moody",
-			"Power Construct",
-			"Shadow Tag",
-			"King's Rock",
-			"Razor Fang",
-			"Quick Claw",
-			"Baton Pass",
-		],
+		banlist: ["Hidden Power", "Pursuit"],
 	},
 	{
 		name: "[Gen 9] National Dex Generation 2",
@@ -188,17 +123,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Only Gen 1",
 			"Terastal Clause",
 		],
-		banlist: [
-			"ND Uber",
-			"Arena Trap",
-			"Moody",
-			"Power Construct",
-			"Shadow Tag",
-			"King's Rock",
-			"Razor Fang",
-			"Quick Claw",
-			"Baton Pass",
-		],
+		banlist: ["Hidden Power", "Pursuit"],
 	},
 	{
 		name: "[Gen 9] National Dex Generation 1",
@@ -211,17 +136,7 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 			"Only Gen 1",
 			"Terastal Clause",
 		],
-		banlist: [
-			"ND Uber",
-			"Arena Trap",
-			"Moody",
-			"Power Construct",
-			"Shadow Tag",
-			"King's Rock",
-			"Razor Fang",
-			"Quick Claw",
-			"Baton Pass",
-		],
+		banlist: ["Hidden Power", "Pursuit"],
 	},
 	{ section: "Fusion VGC" },
 	{
@@ -231,89 +146,94 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 		ruleset: [
 			"Terastal Clause",
 			"Standard NatDex",
-			'Item Clause = 1',
-			'Adjust Level Down = 50',
-			'Picked Team Size = Auto',
-			'!! Adjust Level = 50',
-			'Open Team Sheets', // Forces OTS for all matches in this format
-			'Force Open Team Sheets', // Forces OTS for all matches in this format
+			"Item Clause = 1",
+			"Adjust Level Down = 50",
+			"Picked Team Size = Auto",
+			// '!! Adjust Level = 50',
+			// 'Open Team Sheets', // Forces OTS for all matches in this format
+			"Force Open Team Sheets", // Forces OTS for all matches in this format
 		],
-		banlist: [],
-	},	{
+		banlist: ["Hidden Power", "Pursuit"],
+	},
+	{
 		name: "[Gen 9] National Dex Generation 8 VGC",
 		mod: "gen9",
 		gameType: "doubles",
 		ruleset: [
 			"Terastal Clause",
 			"Standard NatDex",
-			'Item Clause = 1',
-			'Adjust Level Down = 50',
-			'Picked Team Size = Auto',
-			'!! Adjust Level = 50',
-			'Open Team Sheets', // Forces OTS for all matches in this format
-			'Force Open Team Sheets', // Forces OTS for all matches in this format
+			"Item Clause = 1",
+			"Adjust Level Down = 50",
+			"Picked Team Size = Auto",
+			"!! Adjust Level = 50",
+			"Open Team Sheets", // Forces OTS for all matches in this format
+			"Force Open Team Sheets", // Forces OTS for all matches in this format
 		],
-		banlist: [],
-	},	{
+		banlist: ["Hidden Power", "Pursuit"],
+	},
+	{
 		name: "[Gen 9] National Dex Generation 7 VGC",
 		mod: "gen9",
 		gameType: "doubles",
 		ruleset: [
 			"Terastal Clause",
 			"Standard NatDex",
-			'Item Clause = 1',
-			'Adjust Level Down = 50',
-			'Picked Team Size = Auto',
-			'!! Adjust Level = 50',
-			'Open Team Sheets', // Forces OTS for all matches in this format
-			'Force Open Team Sheets', // Forces OTS for all matches in this format
+			"Item Clause = 1",
+			"Adjust Level Down = 50",
+			"Picked Team Size = Auto",
+			"!! Adjust Level = 50",
+			"Open Team Sheets", // Forces OTS for all matches in this format
+			"Force Open Team Sheets", // Forces OTS for all matches in this format
 		],
-		banlist: [],
-	},	{
+		banlist: ["Hidden Power", "Pursuit"],
+	},
+	{
 		name: "[Gen 9] National Dex Generation 6 VGC",
 		mod: "gen9",
 		gameType: "doubles",
 		ruleset: [
 			"Terastal Clause",
 			"Standard NatDex",
-			'Item Clause = 1',
-			'Adjust Level Down = 50',
-			'Picked Team Size = Auto',
-			'!! Adjust Level = 50',
-			'Open Team Sheets', // Forces OTS for all matches in this format
-			'Force Open Team Sheets', // Forces OTS for all matches in this format
+			"Item Clause = 1",
+			"Adjust Level Down = 50",
+			"Picked Team Size = Auto",
+			"!! Adjust Level = 50",
+			"Open Team Sheets", // Forces OTS for all matches in this format
+			"Force Open Team Sheets", // Forces OTS for all matches in this format
 		],
-		banlist: [],
-	},	{
+		banlist: ["Hidden Power", "Pursuit"],
+	},
+	{
 		name: "[Gen 9] National Dex Generation 5 VGC",
 		mod: "gen9",
 		gameType: "doubles",
 		ruleset: [
 			"Terastal Clause",
 			"Standard NatDex",
-			'Item Clause = 1',
-			'Adjust Level Down = 50',
-			'Picked Team Size = Auto',
-			'!! Adjust Level = 50',
-			'Open Team Sheets', // Forces OTS for all matches in this format
-			'Force Open Team Sheets', // Forces OTS for all matches in this format
+			"Item Clause = 1",
+			"Adjust Level Down = 50",
+			"Picked Team Size = Auto",
+			"!! Adjust Level = 50",
+			"Open Team Sheets", // Forces OTS for all matches in this format
+			"Force Open Team Sheets", // Forces OTS for all matches in this format
 		],
-		banlist: [],
-	},	{
+		banlist: ["Hidden Power", "Pursuit"],
+	},
+	{
 		name: "[Gen 9] National Dex Generation 4 VGC",
 		mod: "gen9",
 		gameType: "doubles",
 		ruleset: [
 			"Terastal Clause",
 			"Standard NatDex",
-			'Item Clause = 1',
-			'Adjust Level Down = 50',
-			'Picked Team Size = Auto',
-			'!! Adjust Level = 50',
-			'Open Team Sheets', // Forces OTS for all matches in this format
-			'Force Open Team Sheets', // Forces OTS for all matches in this format
+			"Item Clause = 1",
+			"Adjust Level Down = 50",
+			"Picked Team Size = Auto",
+			"!! Adjust Level = 50",
+			"Open Team Sheets", // Forces OTS for all matches in this format
+			"Force Open Team Sheets", // Forces OTS for all matches in this format
 		],
-		banlist: [],
+		banlist: ["Hidden Power", "Pursuit"],
 	},
 	{
 		name: "[Gen 9] National Dex Generation 3 VGC",
@@ -322,14 +242,14 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 		ruleset: [
 			"Terastal Clause",
 			"Standard NatDex",
-			'Item Clause = 1',
-			'Adjust Level Down = 50',
-			'Picked Team Size = Auto',
-			'!! Adjust Level = 50',
-			'Open Team Sheets', // Forces OTS for all matches in this format
-			'Force Open Team Sheets', // Forces OTS for all matches in this format
+			"Item Clause = 1",
+			"Adjust Level Down = 50",
+			"Picked Team Size = Auto",
+			"!! Adjust Level = 50",
+			"Open Team Sheets", // Forces OTS for all matches in this format
+			"Force Open Team Sheets", // Forces OTS for all matches in this format
 		],
-		banlist: [],
+		banlist: ["Hidden Power", "Pursuit"],
 	},
 	{
 		name: "[Gen 9] National Dex Generation 2 VGC",
@@ -338,14 +258,14 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 		ruleset: [
 			"Terastal Clause",
 			"Standard NatDex",
-			'Item Clause = 1',
-			'Adjust Level Down = 50',
-			'Picked Team Size = Auto',
-			'!! Adjust Level = 50',
-			'Open Team Sheets', // Forces OTS for all matches in this format
-			'Force Open Team Sheets', // Forces OTS for all matches in this format
+			"Item Clause = 1",
+			"Adjust Level Down = 50",
+			"Picked Team Size = Auto",
+			"!! Adjust Level = 50",
+			"Open Team Sheets", // Forces OTS for all matches in this format
+			"Force Open Team Sheets", // Forces OTS for all matches in this format
 		],
-		banlist: [],
+		banlist: ["Hidden Power", "Pursuit"],
 	},
 	{
 		name: "[Gen 9] National Dex Generation 1 VGC",
@@ -354,13 +274,13 @@ export const Formats: import("../sim/dex-formats").FormatList = [
 		ruleset: [
 			"Terastal Clause",
 			"Standard NatDex",
-			'Item Clause = 1',
-			'Adjust Level Down = 50',
-			'Picked Team Size = Auto',
-			'!! Adjust Level = 50',
-			'Open Team Sheets', // Forces OTS for all matches in this format
-			'Force Open Team Sheets', // Forces OTS for all matches in this format
+			"Item Clause = 1",
+			"Adjust Level Down = 50",
+			"Picked Team Size = Auto",
+			"!! Adjust Level = 50",
+			"Open Team Sheets", // Forces OTS for all matches in this format
+			"Force Open Team Sheets", // Forces OTS for all matches in this format
 		],
-		banlist: [],
+		banlist: ["Hidden Power", "Pursuit"],
 	},
 ];
