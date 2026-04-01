@@ -1060,6 +1060,8 @@ export class RoomBattle extends RoomGame<RoomBattlePlayer> {
 		const slot = player.slot;
 		this[slot] = player;
 
+		// console.trace({ playerOpts });
+
 		if (playerOpts) {
 			const options = {
 				name: player.name,

@@ -98,6 +98,7 @@ export class BattleStream extends Streams.ObjectReadWriteStream<string> {
 	}
 
 	_writeLine(type: string, message: string) {
+		console.log("_writeLine called: ", type);
 		switch (type) {
 		case 'start':
 			const options = JSON.parse(message);

@@ -13,6 +13,7 @@ import * as ConfigLoader from './config-loader';
 export const PM = new QueryProcessManager<{
 	formatid: string, options?: { removeNicknames?: boolean }, team: string,
 }>('team-validator', module, message => {
+	// KN: step 4, after QPM is init, the message is retrieved and it is unpacked
 	const { formatid, options, team } = message;
 	const parsedTeam = Teams.unpack(team);
 
@@ -22,7 +23,10 @@ export const PM = new QueryProcessManager<{
 
 	let problems;
 	try {
-		problems = TeamValidator.get(formatid).validateTeam(parsedTeam, options);
+		const currentFormat = TeamValidator.get(formatid);
+		// console.log({ formatid, parsedTeam });
+		// console.log({ currentFormat });
+		problems = currentFormat.validateTeam(parsedTeam, options);
 	} catch (err) {
 		Monitor.crashlog(err, 'A team validation', {
 			formatid,
@@ -52,7 +56,9 @@ export class TeamValidatorAsync {
 		this.format = Dex.formats.get(format);
 	}
 
+	// KN: step 1, should receive correct team
 	validateTeam(team: string, options?: { removeNicknames?: boolean, user?: ID }) {
+		// console.trace({ teamInValidateTeam: team });
 		let formatid = this.format.id;
 		if (this.format.customRules) formatid += '@@@' + this.format.customRules.join(',');
 		if (team.length > (25 * 1024 - 6)) { // don't even let it go to the child process

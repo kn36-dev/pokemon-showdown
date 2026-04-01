@@ -268,6 +268,7 @@ export class Side {
 		return 'move';
 	}
 
+	// KN: here we remix the Pokemons according to the fusion format
 	addPokemon(set: PokemonSet) {
 		if (this.pokemon.length >= 24) return null;
 		const newPokemon = new Pokemon(set, this);

@@ -1,99 +1,111 @@
-Pokémon Showdown
-========================================================================
+# Pokémon Showdown - Simple Explanation
 
-Navigation: [Website][1] | **Server repository** | [Client repository][2] | [Dex repository][3]
+Pokémon Showdown is a computer program that lets you play Pokémon battles online. It's like having a Pokémon game that you can play with friends from anywhere in the world.
 
-  [1]: http://pokemonshowdown.com/
-  [2]: https://github.com/smogon/pokemon-showdown-client
-  [3]: https://github.com/Zarel/Pokemon-Showdown-Dex
+## What This Project Does
 
-[![Build Status](https://github.com/smogon/pokemon-showdown/workflows/Node.js%20CI/badge.svg)](https://github.com/smogon/pokemon-showdown/actions?query=workflow%3A%22Node.js+CI%22)
-[![Dependency Status](https://img.shields.io/librariesio/github/smogon/pokemon-showdown)](https://libraries.io/github/smogon/pokemon-showdown)
+This project is a complete Pokémon battle simulator. It can:
+- Let people play Pokémon battles online
+- Simulate all the rules of Pokémon games
+- Work on computers, phones, and tablets
+- Be used to make your own Pokémon battle website
 
+## How It Works
 
-Introduction
-------------------------------------------------------------------------
+The program has three main parts:
 
-Pokémon Showdown is many things:
+### 1. The Game Server
+This is the main computer program that runs the battles. It:
+- Handles all the connections from players
+- Manages chat rooms where people talk
+- Runs the actual Pokémon battles
+- Keeps track of who wins and loses
 
-- A **web site** you can use for Pokémon battling
+### 2. The Client (Web Interface)
+This is what people see when they visit the website. It:
+- Shows the battle screen
+- Displays chat messages
+- Lets players choose their Pokémon
+- Shows all the battle information
 
-  - http://pokemonshowdown.com/
+### 3. The Login Server
+This part:
+- Manages user accounts
+- Keeps track of player rankings
+- Handles passwords and security
 
-- A **JavaScript library** for simulating Pokémon battles and getting Pokédex data
+## How to Use This Code
 
-  - [sim/README.md](./sim/README.md)
+You can use this code to:
+1. Run your own Pokémon battle website
+2. Create Pokémon battle bots (computer programs that play Pokémon)
+3. Learn how Pokémon battles work in a computer program
+4. Add new Pokémon games or features
 
-- Some **command-line tools** for simulating Pokémon battles (which can be used in non-JavaScript programs)
+## Main Folders Explained
 
-  - [COMMANDLINE.md](./COMMANDLINE.md)
+### `/server/`
+This folder has all the code for the main game server. It handles:
+- Connecting players to the game
+- Managing chat rooms
+- Running battles
+- Keeping track of users
 
-- A **web API** for the web site for Pokémon battling
+### `/sim/`
+This folder has the code that actually simulates Pokémon battles. It:
+- Knows all the rules of Pokémon games
+- Figures out what happens when Pokémon attack
+- Checks if moves work correctly
+- Makes sure battles are fair
 
-  - [pokemon-showdown-client: WEB-API.md](https://github.com/smogon/pokemon-showdown-client/blob/master/WEB-API.md)
+### `/data/`
+This folder has all the Pokémon information:
+- What Pokémon look like
+- What moves they can do
+- How strong they are
+- What items they can use
 
-- A **game server** for hosting your own Pokémon Showdown community and game modes
+### `/config/`
+This folder has settings for how the game works:
+- What rules to use
+- How to connect to the internet
+- What chat rooms to have
+- How to handle user accounts
 
-  - [server/README.md](./server/README.md)
+### `/lib/`
+This folder has helper tools:
+- Code to read and save files
+- Tools to connect to databases
+- Code to handle network connections
+- Other useful functions
 
-Pokémon Showdown simulates singles, doubles and triples battles in all the games out so far (Generations 1 through 9).
+### `/chat-plugins/`
+This folder has extra chat features:
+- Special commands people can use
+- Games to play in chat
+- Tools to help moderators
 
+### `/tools/`
+This folder has special programs:
+- Tools to test the game
+- Programs to help developers
+- Scripts to update the game
 
-Documentation quick links
-------------------------------------------------------------------------
+## How to Start Your Own Game Server
 
-* [PROTOCOL.md][4] - How the client and server communicate with each other.
-* [sim/SIM-PROTOCOL.md][5] - The part of the protocol used for battles and battle messages.
-* [CONTRIBUTING.md][6] - Useful code standards to understand if you want to send pull requests to PS (not necessary if you're just using the code and not planning to contribute back).
-* [ARCHITECTURE.md][7] - A high-level overview of how the code works.
-* [Bot FAQ][8] - An FAQ compiled by Kaiepi regarding making Pokemon Showdown bots - mainly chatbots and battle bots.
+1. Get a computer that can run the program
+2. Install Node.js (a program that lets this code run)
+3. Copy the files from this project
+4. Run the main program
+5. Visit the website to play
 
-  [4]: ./PROTOCOL.md
-  [5]: ./sim/SIM-PROTOCOL.md
-  [6]: ./CONTRIBUTING.md
-  [7]: ./ARCHITECTURE.md
-  [8]: https://gist.github.com/Kaiepi/becc5d0ecd576f5e7733b57b4e3fa97e
+## For Developers
 
+This project is written in JavaScript and TypeScript. It's designed so that:
+- People can easily understand how it works
+- New features can be added easily
+- The code is organized in a clear way
 
-Community
-------------------------------------------------------------------------
+## License
 
-PS has a built-in chat service. Join our main server to talk to us!
-
-You can also visit the [Pokémon Showdown forums][9] for discussion and help.
-
-  [9]: https://www.smogon.com/forums/forums/pok%C3%A9mon-showdown.209/
-
-If you'd like to contribute to programming and don't know where to start, feel free to check out [Ideas for New Developers][10].
-
-  [10]: https://github.com/smogon/pokemon-showdown/issues/2444
-
-
-License
-------------------------------------------------------------------------
-
-Pokémon Showdown's server is distributed under the terms of the [MIT License][11].
-
-  [11]: ./LICENSE
-
-
-Credits
-------------------------------------------------------------------------
-
-Owner
-
-- Guangcong Luo [Zarel] - Development, Design, Sysadmin
-
-Staff
-
-- Andrew Werner [HoeenHero] - Development
-- Annika L. [Annika] - Development
-- Chris Monsanto [chaos] - Development, Sysadmin
-- Kris Johnson [dhelmise] - Development
-- Leonard Craft III [DaWoblefet] - Research (game mechanics)
-- Mathieu Dias-Martins [Marty-D] - Research (game mechanics), Development
-- Mia A [Mia] - Development
-
-Contributors
-
-- See http://pokemonshowdown.com/credits
+This project is free to use and change. You can find the full license in the LICENSE file.

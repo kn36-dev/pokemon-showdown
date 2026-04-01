@@ -1,5 +1,6 @@
 /config/*
 !/config/formats.ts
+!/config/formats_backup.ts
 /logs/**/*
 /test/modlogs
 /test/replays/*.html
@@ -8,6 +9,7 @@
 /server/chat-plugins/private
 /server/chat-plugins/private.js
 /server/chat-plugins/*-private.js
+/server/static
 npm-debug.log
 .eslintcache
 .eslintcache-no-types
